@@ -7,16 +7,16 @@ namespace Doctrine\Tests\Models\Project;
 class Project
 {
     /**
-     * @var string
+     * @var ProjectId
      */
     private $id;
 
     /**
-     * @var string
+     * @var ProjectName
      */
     private $name;
 
-    public function __construct(string $id, string $name)
+    public function __construct(ProjectId $id, ProjectName $name)
     {
         $this->id   = $id;
         $this->name = $name;

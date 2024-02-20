@@ -22,6 +22,9 @@ use Doctrine\Tests\Models\DDC889\DDC889SuperClass;
 use Doctrine\Tests\Models\Generic\BooleanModel;
 use Doctrine\Tests\Models\GH7141\GH7141Article;
 use Doctrine\Tests\Models\GH7316\GH7316Article;
+use Doctrine\Tests\Models\Offer\Offer;
+use Doctrine\Tests\Models\Offer\OfferId;
+use Doctrine\Tests\Models\Offer\OfferType;
 use Doctrine\Tests\Models\Project\Project;
 use Doctrine\Tests\Models\Project\ProjectId;
 use Doctrine\Tests\Models\Project\ProjectInvalidMapping;
@@ -303,6 +306,24 @@ class XmlMappingDriverTest extends MappingDriverTestCase
 
         self::assertEquals(ProjectId::class, $id['type']);
         self::assertEquals(ProjectName::class, $name['type']);
+    }
+
+    public function testEnumTypeInIdField(): void
+    {
+        $class = new ClassMetadata(Offer::class);
+        $class->initializeReflection(new RuntimeReflectionService());
+
+        $driver = $this->loadDriver();
+        $driver->loadMetadataForClass(Offer::class, $class);
+
+        /** @var array{type: string} $id */
+        $id = $class->getFieldMapping('id');
+
+        /** @var array{enumType: string} $type */
+        $type = $class->getFieldMapping('type');
+
+        self::assertEquals(OfferId::class, $id['type']);
+        self::assertEquals(OfferType::class, $type['enumType']);
     }
 }
 
